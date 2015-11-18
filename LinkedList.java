@@ -9,7 +9,7 @@ import java.lang.Iterable;
 public class LinkedList<E>
 {
 	//first item in the LinkedLIst
-	protected ListNode<E> head;
+	private ListNode<E> head;
 	private ListNode<E> tail; //??
 	private int size; //??
 	
@@ -26,6 +26,20 @@ public class LinkedList<E>
 		head = h;
 		tail = h;
 		size = 1;
+	}
+	
+	public LinkedList(LinkedList<E> other) //WRONG
+	{
+		head = new ListNode<E>(other.get(0));
+		int count = 0;
+		ListNode<E> last = head;
+		for (ListNode<E> curr = head; curr != null; curr = curr.getNext())
+		{
+			count++;
+			last = curr;
+		}
+		size = count;
+		tail = last;
 	}
 	
 	/*
@@ -57,9 +71,9 @@ public class LinkedList<E>
 	}
 	
 	//boolean for future implememntation
-	public boolean add(E item)
+	public boolean add(E o)
 	{
-		return add(item, size);
+		return add(o, size);
 	}
 	
 	public boolean add(E item, int n)
@@ -67,18 +81,22 @@ public class LinkedList<E>
 		ListNode<E> obj = new ListNode<E>(item);
 		//if (size == 0)
 		//	head = obj;
-		if (n == 0)
+		if (n == 0) //add to start or empty
 		{
 			obj.setNext(head);
 			head = obj;
 		}
-		else
+		else if (n == size) //only called if it is not empty
+		{
+			tail.setNext(obj);
+		}
+		else //adding to middle
 		{
 			ListNode<E> prev = atPosition(n-1);
 			obj.setNext(prev.getNext()); //does it work if next is null, adding to the end of the list?
 			prev.setNext(obj);
 		}
-		if (n == size)
+		if (n == size) //called if empty or last
 			tail = obj;
 		size++;
 		return true; 
@@ -94,15 +112,29 @@ public class LinkedList<E>
 	
 	public E get(int n)
 	{
-		return atPosition(n).get();
+		return atPosition(n).getValue();
 	}
 	
-	public E remove(int n)
+	public E remove(int index)
 	{
-		ListNode<E> prev = atPosition(n);
-		ListNode<E> obj = prev.getNext();
-		prev.setNext(obj.getNext());
-		return obj.get();
+		ListNode<E> obj; //stops the error
+		if (index == 0)
+		{
+			head = head.getNext();
+			obj = head;
+		}
+		else
+		{ 
+			ListNode<E> prev = atPosition(index - 1);
+			obj = prev.getNext();
+			prev.setNext(obj.getNext());
+			if (index == size - 1)
+			{
+				tail = prev;
+			}
+		}
+		size --;
+		return obj.getValue();
 	}
 	
 	public String toString()
@@ -129,7 +161,7 @@ public class LinkedList<E>
 	
 	public E peek()
 	{
-		return head.get();
+		return head.getValue();
 	}
 	
 	public boolean isEmpty()

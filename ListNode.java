@@ -18,12 +18,12 @@ public class ListNode<E>
 		next = n;
 	}
 	
-	public E get() //getValue
+	public E getValue() //getValue
 	{
 		return value;
 	}
 	
-	public void set(E item) //setValue
+	public void setValue(E item) //setValue
 	{
 		value = item;
 	}
