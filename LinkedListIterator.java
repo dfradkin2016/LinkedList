@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 
 public class LinkedListIterator<E> implements Iterator<E>
 {
-		private LinkedList<E> list;
 		private ListNode<E> curr;
 		
 		/**
@@ -19,10 +18,9 @@ public class LinkedListIterator<E> implements Iterator<E>
 	
 		@param	v	Other vector
 		*/
-		public LinkedListIterator(LinkedList<E> l)
+		public LinkedListIterator(ListNode<E> head)
 		{
-			list = l;
-			curr = list.head;
+			curr = head;
 		}
 		
 		/**
@@ -32,10 +30,14 @@ public class LinkedListIterator<E> implements Iterator<E>
 		*/
 		public boolean hasNext()
 		{
-			if (curr.getNext() == null) //?????
+			//return false;
+			//System.out.println("HERE");
+			if (curr == null) //?????
 			{
+				//System.out.println(curr + "false");
 				return false;
 			}
+			//System.out.println(curr + "true");
 			return true;
 		}
 		
@@ -47,10 +49,9 @@ public class LinkedListIterator<E> implements Iterator<E>
 		public E next()
 		{
 			if (!hasNext())
-				throw new NoSuchElementException("No next term. Currently at " + curr 
-					+ ". Length is " + vector.size());
-			ListNode<E> temp = curr;
+				throw new NoSuchElementException("No next term. Currently at " + curr.toString());
+			E temp = curr.getValue();
 			curr = curr.getNext();
-			return curr.getValue();
+			return temp;
 		}
 }

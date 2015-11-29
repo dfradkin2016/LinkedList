@@ -8,7 +8,7 @@ public interface Queue<E>
 	
 	E poll(); //take top off, returns head
 	
-	E peek(); head pointer
+	E peek(); //head pointer
 	
 	boolean isEmpty();
 }
